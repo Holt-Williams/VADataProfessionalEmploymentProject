@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587563965786.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2831266669",
+    "id" : "DDB450D4",
+    "lastKnownWriteTime" : 1587667970,
+    "last_content_update" : 1587667970706,
+    "path" : "~/NorthEastern/NorthEasternCLASSES/ALY 6000 Intro to Analytics/CareersInAnalyticsProject/Rlibraries.R",
+    "project_path" : "Rlibraries.R",
+    "properties" : {
+        "cursorPosition" : "6,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
