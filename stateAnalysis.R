@@ -75,10 +75,7 @@ va%>%
   theme_ipsum()
 
 
-library(ggridges)
-library(ggplot2)
-library(viridis)
-library(hrbrthemes)
+
 ##Larger Ridge plot
 df%>%
   filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
@@ -116,6 +113,11 @@ va%>%
        subtitle="Annual Salary",
        y= "$",
        x=NULL)+scale_y_continuous(label=comma)
+
+va%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")%>%summarise(average=mean(x=a_mean, na.rm=TRUE))
+
 
 va%>%
   filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
