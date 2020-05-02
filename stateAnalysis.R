@@ -1,6 +1,8 @@
 ## Career Projections Data
 ## by State https://www.bls.gov/oes/tables.htm
 df<- read.csv("state_M2019_dl.csv")
+proj<- read.csv("EmploymentProjections.csv")
+
 
 #str(df)
 #summary(df)
@@ -8,11 +10,12 @@ df<- read.csv("state_M2019_dl.csv")
 ##Slide 1
 ##Cleaning
 df<- df%>%
-      select(area,area_title,occ_title,tot_emp, h_mean, a_mean)
+      select(area,area_title,occ_title,tot_emp, h_mean, a_mean, occ_code)
 df$tot_emp <- as.numeric(gsub(",","",df$tot_emp))
 df$h_mean <- as.numeric(gsub(",","",df$h_mean))
 df$a_mean <- as.numeric(gsub(",","",df$a_mean))
 ## Subset
+df<-left_join(df,proj,by=c("occ_code"="Occupation.Code"))
 va<- df%>%filter(area=="51")
 
 ##Slide 2
@@ -122,4 +125,20 @@ va%>%
 va%>%
   filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
   filter(occ_title!="Data Entry Keyers")%>%summarise(average=weighted.mean(x=a_mean, w=tot_emp, na.rm=TRUE))
+
+### Combine with Projection data Set
+va%>%drop_na()%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")%>%
+  ggplot(aes(x=reorder(str_wrap(occ_title),-Employment.Percent.Change..2018.2028),Employment.Percent.Change..2018.2028,label=Employment.Percent.Change..2018.2028, fill=occ_title))+
+  geom_col()+
+  geom_text(nudge_y=1)+
+  coord_flip()+
+  guides(fill=FALSE, color=FALSE)+
+  labs(title="Virginian Data Professionals ",
+       subtitle="Percentage Growth 2018-2028",
+       y= "Percent Change (%)",
+       x=NULL)+scale_y_continuous(label=comma)
+
+
 
