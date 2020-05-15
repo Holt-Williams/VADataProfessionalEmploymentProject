@@ -1,5 +1,5 @@
 ---
-title: "States Employment Analysis"
+title: "State Employment Analysis"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -36,12 +36,9 @@ va<- df%>%filter(area=="51")
 
 ```
 
-<div class="footer">
-  <p> State Analysis | G. Holt Williams | github.com/holt-williams </p>
-</div>
 
-1. Virginia
-=====================================
+
+
 
 Row {data-height=100}
 -------------------------------------
@@ -171,7 +168,10 @@ hcboxplot(x$a_mean, var = x$area_title)%>%
           
 ```
 
+Row {data-height=20}
+-------------------------------------
 
-
-
+<div class="footer">
+  <p> State Analysis | G. Holt Williams | github.com/holt-williams | Source: https://www.bls.gov/oes/tables.htm May 2019 </p>
+</div>
 
