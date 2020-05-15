@@ -5,4 +5,5 @@ https://holt-williams.github.io/VADataProfessionalEmploymentProject/
 
 Shiny App is Under:
 StateDashboardShiny.Rmd
-## To Do figure out how to host it
+To Do:
+1. figure out how to host Shiny App
