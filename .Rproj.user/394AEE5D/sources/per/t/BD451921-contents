@@ -1,0 +1,177 @@
+---
+title: "States Employment Analysis"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(flexdashboard)
+library(tidyverse)
+library(rmarkdown)
+library(scales)
+library(stringr)
+library(ggridges)
+library(viridis)
+library(hrbrthemes)
+library(printr)
+library(highcharter)
+library(DT)
+
+```
+
+```{r Data, include=FALSE}
+df<- read.csv("state_M2019_dl.csv")
+proj<- read.csv("EmploymentProjections.csv")
+df<- df%>%
+      select(area,area_title,occ_title,tot_emp, h_mean, a_mean, occ_code)
+df$tot_emp <- as.numeric(gsub(",","",df$tot_emp))
+df$h_mean <- as.numeric(gsub(",","",df$h_mean))
+df$a_mean <- as.numeric(gsub(",","",df$a_mean))
+## Subset
+df<-left_join(df,proj,by=c("occ_code"="Occupation.Code"))
+va<- df%>%filter(area=="51")
+
+```
+
+<div class="footer">
+  <p> State Analysis | G. Holt Williams | github.com/holt-williams </p>
+</div>
+
+1. Virginia
+=====================================
+
+Row {data-height=100}
+-------------------------------------
+
+
+### 
+```{r}
+valueBox(unique(va$area_title)
+         )
+
+```
+
+
+### Total Employment
+```{r}
+valueBox(va%>%filter(occ_title=="All Occupations")%>%select(tot_emp)%>%as.numeric()%>%comma()
+         )
+```
+
+Row {data-height=500}
+-------------------------------------
+
+### Top 10 Occupations
+```{r}
+x <- c("Employment: ")                #####  what do you want to name the values
+y <- sprintf("{point.%s:.f}", c("tot_emp"))   #####  column names of the values & formatting to cut off at 2 decimal places
+tltip <- tooltip_table(x, y)
+
+va%>%
+  filter(tot_emp<1000000)%>%
+  top_n(10,wt=tot_emp)%>%arrange(tot_emp)%>%
+  hchart("column", hcaes(x=occ_title, y=tot_emp))%>% 
+  hc_xAxis(title = list(text ="Occupation Title")) %>%
+  hc_yAxis(title = list(text ="Employment")) %>%
+  hc_title(text='Employment by Occupations')%>%hc_add_theme(hc_theme_economist()) %>%
+  hc_tooltip(useHTML = TRUE, pointFormat = tltip)
+```
+
+
+
+Row {data-height=520}
+-------------------------------------
+
+### Data Professional Titles in Dataset
+
+```{r}
+
+x<-df%>%filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  select(occ_title, "Data Professionals" = occ_title)%>%
+  filter("Data Professionals"!="Data Entry Keyers")%>%unique()
+datatable(x, rownames=FALSE)
+
+```
+
+
+Row {data-height=125}
+-------------------------------------
+
+### Percent of Total Data Related Jobs
+```{r}
+gauge(va%>%filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%filter(occ_title!="Data Entry Keyers")%>%summarise(sum=((sum(tot_emp)/3878770)))%>%as.numeric()%>%percent()
+      , min = 0 , max = 100
+      , gaugeSectors( success = c(0, 1))
+      ,symbol="%"
+      )
+
+```
+
+
+
+### Total Data Professionals in Virginia
+
+```{r}
+valueBox(va%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")%>%summarise(sum=sum(tot_emp))%>%as.numeric()%>%comma())
+
+### Add FavCon?
+```
+
+
+Row {data-height=500}
+-------------------------------------
+
+### Virginia Data Professionals
+```{r}
+x <- c("Employment")                #####  what do you want to name the values
+y <- sprintf("{point.%s:.f}", c("tot_emp"))   #####  column names of the values & formatting to cut off at 2 decimal places
+tltip <- tooltip_table(x, y)   
+
+va%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")%>%arrange(tot_emp)%>%
+  hchart("column", hcaes(x=occ_title, y=tot_emp))%>% 
+  hc_xAxis(reversed=TRUE,title = list(text ="Occupation Title")) %>%
+  hc_yAxis(title = list(text ="Employment")) %>%
+  hc_title(text='Employment of Data Occupations') %>%hc_add_theme(hc_theme_economist())%>%
+  hc_tooltip(useHTML = TRUE, pointFormat = tltip)
+```
+
+
+
+Row {data-height=500, .tabset}
+-------------------------------------
+### Hourly Salary
+
+```{r}
+
+x<-va%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")
+hcboxplot(x$h_mean, var = x$area_title)%>% 
+  hc_yAxis(title = list(text ="Hourly Salary ($ per hour)"))%>%
+  hc_add_theme(hc_theme_economist())
+          
+```
+
+### Yearly Salary
+
+```{r}
+x<-va%>%
+  filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%
+  filter(occ_title!="Data Entry Keyers")
+hcboxplot(x$a_mean, var = x$area_title)%>% 
+  hc_yAxis(title = list(text ="Annual Salary"))%>%
+  hc_add_theme(hc_theme_economist())       
+          
+```
+
+
+
+
+

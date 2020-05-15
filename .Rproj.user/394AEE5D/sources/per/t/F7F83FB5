@@ -5,21 +5,21 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "3372242530",
+    "hash" : "1420727456",
     "id" : "F7F83FB5",
-    "lastKnownWriteTime" : 1588458262,
-    "last_content_update" : 1588458262550,
+    "lastKnownWriteTime" : 1589562234,
+    "last_content_update" : 1589562234482,
     "path" : "C:/Users/Holt/Desktop/github/VADataProfessionalEmployment/stateAnalysis.R",
     "project_path" : "stateAnalysis.R",
     "properties" : {
-        "cursorPosition" : "10,10",
+        "cursorPosition" : "3,42",
         "scrollLine" : "0",
         "tempName" : "Untitled1"
     },
     "read_only" : false,
     "read_only_alternatives" : [
     ],
-    "relative_order" : 3,
+    "relative_order" : 2,
     "source_on_save" : false,
     "source_window" : "",
     "type" : "r_source"

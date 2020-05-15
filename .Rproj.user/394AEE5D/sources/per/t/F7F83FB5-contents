@@ -1,3 +1,5 @@
+### Not of all of this is organized. More of a testing ground to create the dashboard
+
 ## Career Projections Data
 ## by State https://www.bls.gov/oes/tables.htm
 df<- read.csv("state_M2019_dl.csv")
@@ -97,7 +99,6 @@ df%>%
     strip.text.x = element_text(size = 8),
     axis.line=NULL,
     panel.grid.major=element_blank()
-    
   )
 
 
@@ -141,4 +142,9 @@ va%>%drop_na()%>%
        x=NULL)+scale_y_continuous(label=comma)
 
 
+unique(va$area_title)
 
+va%>%filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%filter(occ_title!="Data Entry Keyers")%>%summarise(sum=sum(tot_emp))
+
+va%>%filter(grepl("data|analyst",occ_title, ignore.case = TRUE))%>%filter(occ_title!="Data Entry Keyers")%>%summarise(sum=(sum(tot_emp)/3878770))
+                                                                                                                      

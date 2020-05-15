@@ -1,0 +1,8 @@
+"0","x<-va%>%"
+"0","  filter(grepl(""data|analyst"",occ_title, ignore.case = TRUE))%>%"
+"0","  filter(occ_title!=""Data Entry Keyers"")"
+"0","hcboxplot(x$a_mean, var = x$area_title)%>% "
+"0","  hc_yAxis(title = list(text =""Hourly Salary""))%>%"
+"0","  hc_add_theme(hc_theme_economist())       "
+"2","`cols` is now required.
+Please use `cols = c(data)`"
