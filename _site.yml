@@ -1,11 +1,2 @@
-name: "website"
-title: "VA State Dashboard"
-base_url: https://holt-williams.github.io
-description: |
-  Dashboard
-output_dir: "docs"     # root of master branch
-navbar:
-  right:
-    - text: "Home"
-      href: StateDashboard.html
-output: flexdashboard::flex_dashboard
+name: "my-website"
+output_dir: docs
